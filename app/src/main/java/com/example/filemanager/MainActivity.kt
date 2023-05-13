@@ -9,7 +9,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.example.filemanager.compose.WelcomePage
 import com.example.filemanager.ui.theme.FileManagerTheme
 
@@ -23,7 +26,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   WelcomePage()
+
+                    Text(
+                        fontWeight = FontWeight(800),
+                        text = "Organise all your files in one place!",
+                    )
+
+                    WelcomePage()
                 }
             }
         }
@@ -34,6 +43,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     FileManagerTheme {
-
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            WelcomePage()
+        }
     }
 }

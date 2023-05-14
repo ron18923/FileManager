@@ -30,8 +30,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    WelcomePage()
-                }
+                 }
             }
         }
     }
@@ -45,7 +44,7 @@ fun DefaultPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            WelcomePage()
+//            WelcomePage()
         }
     }
 }

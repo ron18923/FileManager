@@ -33,22 +33,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.filemanager.R
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.withContext
 
+@Destination(start = true)
 @Composable
-fun WelcomePage(modifier: Modifier = Modifier) {
+fun WelcomePage(modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
 
     val heightDp = LocalConfiguration.current.screenHeightDp.dp.value
 
+    //if screen height is very small, then apply the scrollabe interface.
     if (heightDp > 600) {
-        Regular()
-    } else Scrollable()
+        Regular(modifier, navigator)
+    } else Scrollable(modifier, navigator)
 
 }
 
-//scrollable composable screen for very small screens (for example in split screen mode)
+//scrollable composable screen for very small screen heights (for example in split screen mode)
 @Composable
-fun Scrollable(modifier: Modifier = Modifier) {
+fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
 
     val scrollState = rememberScrollState()
 
@@ -126,9 +130,9 @@ fun Scrollable(modifier: Modifier = Modifier) {
     }
 }
 
-//regular composable screen for normal screen sizes
+//regular composable screen for normal screen heights
 @Composable
-private fun Regular(modifier: Modifier = Modifier) {
+private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
     Box(
         modifier = modifier
             .fillMaxSize(),
@@ -182,7 +186,11 @@ private fun Regular(modifier: Modifier = Modifier) {
                         shape = RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                         elevation = ButtonDefaults.elevation(0.dp, pressedElevation = 0.dp),
-                        onClick = {/*TODO*/ }) {
+                        onClick = {
+//                            navigator.navigate(
+//                                HomeIn
+//                            )
+                        }) {
                         Text(
                             modifier = modifier.padding(
                                 start = 27.dp,
@@ -206,5 +214,5 @@ private fun Regular(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun WelcomePagePrev() {
-    WelcomePage()
+//    WelcomePage()
 }

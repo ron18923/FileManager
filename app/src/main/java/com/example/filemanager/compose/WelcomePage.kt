@@ -1,58 +1,42 @@
 package com.example.filemanager.compose
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.filemanager.R
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.withContext
+import com.example.filemanager.compose.navigation.Screen
 
-@Destination(start = true)
 @Composable
-fun WelcomePage(modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+fun WelcomePage(modifier: Modifier = Modifier, navController: NavController) {
 
     val heightDp = LocalConfiguration.current.screenHeightDp.dp.value
 
-    //if screen height is very small, then apply the scrollabe interface.
+    //if screen height is very small, then apply the scrollable interface.
     if (heightDp > 600) {
-        Regular(modifier, navigator)
-    } else Scrollable(modifier, navigator)
+        Regular(modifier, navController = navController)
+    } else Scrollable(modifier, navController = navController)
 
 }
 
 //scrollable composable screen for very small screen heights (for example in split screen mode)
 @Composable
-fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+fun Scrollable(modifier: Modifier = Modifier, navController: NavController) {
 
     val scrollState = rememberScrollState()
 
@@ -80,7 +64,7 @@ fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) 
 
             Card(
                 modifier = modifier.padding(top = 72.dp),
-                backgroundColor = MaterialTheme.colors.onBackground,
+                backgroundColor = colors.onBackground,
                 elevation = 0.dp,
                 shape = RoundedCornerShape(30.dp),
             ) {
@@ -88,7 +72,7 @@ fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) 
                     Text(
                         modifier = modifier,
                         fontSize = 30.sp,
-                        color = MaterialTheme.colors.secondary,
+                        color = colors.secondary,
                         textAlign = TextAlign.Center,
                         text = "Organise all your files in one place!",
                         fontWeight = FontWeight.ExtraBold,
@@ -97,7 +81,7 @@ fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) 
                     Text(
                         modifier = modifier.padding(top = 6.dp),
                         fontSize = 18.sp,
-                        color = MaterialTheme.colors.secondary,
+                        color = colors.secondary,
                         textAlign = TextAlign.Center,
                         text = "Keep your files organized more easily and faster in one place ",
                         fontWeight = FontWeight.ExtraBold,
@@ -107,16 +91,18 @@ fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) 
                         .fillMaxWidth()
                         .padding(top = 26.dp),
                         shape = RoundedCornerShape(20.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.primary),
                         elevation = ButtonDefaults.elevation(0.dp, pressedElevation = 0.dp),
-                        onClick = {/*TODO*/ }) {
+                        onClick = {
+                            navController.navigate(Screen.HomeInternal.route)
+                        }) {
                         Text(
                             modifier = modifier.padding(
                                 start = 27.dp,
                                 end = 27.dp,
                             ),
                             fontSize = 30.sp,
-                            color = MaterialTheme.colors.onPrimary,
+                            color = colors.onPrimary,
                             textAlign = TextAlign.Center,
                             text = "Let's Go",
                             fontWeight = FontWeight.Bold,
@@ -132,7 +118,7 @@ fun Scrollable(modifier: Modifier = Modifier, navigator: DestinationsNavigator) 
 
 //regular composable screen for normal screen heights
 @Composable
-private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNavigator) {
+private fun Regular(modifier: Modifier = Modifier, navController: NavController) {
     Box(
         modifier = modifier
             .fillMaxSize(),
@@ -157,7 +143,7 @@ private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNaviga
 
             Card(
                 modifier = modifier,
-                backgroundColor = MaterialTheme.colors.onBackground,
+                backgroundColor = colors.onBackground,
                 elevation = 0.dp,
                 shape = RoundedCornerShape(30.dp),
             ) {
@@ -165,16 +151,16 @@ private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNaviga
                     Text(
                         modifier = modifier,
                         fontSize = 30.sp,
-                        color = MaterialTheme.colors.secondary,
+                        color = colors.secondary,
                         textAlign = TextAlign.Center,
                         text = "Organise all your files in one place!",
                         fontWeight = FontWeight.ExtraBold,
-                    )
+                        )
 
                     Text(
                         modifier = modifier.padding(top = 6.dp),
                         fontSize = 18.sp,
-                        color = MaterialTheme.colors.secondary,
+                        color = colors.secondary,
                         textAlign = TextAlign.Center,
                         text = "Keep your files organized more easily and faster in one place ",
                         fontWeight = FontWeight.ExtraBold,
@@ -184,12 +170,10 @@ private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNaviga
                         .fillMaxWidth()
                         .padding(top = 26.dp),
                         shape = RoundedCornerShape(20.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.primary),
                         elevation = ButtonDefaults.elevation(0.dp, pressedElevation = 0.dp),
                         onClick = {
-//                            navigator.navigate(
-//                                HomeIn
-//                            )
+                            navController.navigate(Screen.HomeInternal.route)
                         }) {
                         Text(
                             modifier = modifier.padding(
@@ -197,7 +181,7 @@ private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNaviga
                                 end = 27.dp,
                             ),
                             fontSize = 30.sp,
-                            color = MaterialTheme.colors.onPrimary,
+                            color = colors.onPrimary,
                             textAlign = TextAlign.Center,
                             text = "Let's Go",
                             fontWeight = FontWeight.Bold,
@@ -211,8 +195,7 @@ private fun Regular(modifier: Modifier = Modifier, navigator: DestinationsNaviga
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun WelcomePagePrev() {
-//    WelcomePage()
+    WelcomePage(navController = rememberNavController())
 }

@@ -56,9 +56,8 @@ fun Home(
             Spacer(modifier = modifier.height(10.dp))
 
             BottomActions(modifier = modifier)
-
-            BottomBar(modifier = modifier)
         }
+        BottomBar(modifier = modifier)
     }
 }
 
